@@ -19,6 +19,7 @@ services:
     ports:
       - "8080:8080"
 
+
 networks:
   full_stack_network:
     driver: bridge

@@ -1,12 +1,11 @@
 package weatherAPI
 
 type WeatherAPI struct {
+	apiAccessCode string
 }
 
-func New() *WeatherAPI {
-	return &WeatherAPI{}
-}
-
-func (w *WeatherAPI) GetWeather(city, country string) {
-
+func New(code string) *WeatherAPI {
+	return &WeatherAPI{
+		apiAccessCode: code,
+	}
 }
