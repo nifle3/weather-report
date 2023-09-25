@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (h *HttpServer) getWeather(w http.ResponseWriter, r *http.Request) {
+func (c *customMux) getWeather(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -24,7 +24,7 @@ func (h *HttpServer) getWeather(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	weather := h.api.GetWeather(result.City, result.Country)
+	weather := c.api.GetWeather(result.City, result.Country)
 
 	jsonWeather, err := json.Marshal(weather)
 	if err != nil {

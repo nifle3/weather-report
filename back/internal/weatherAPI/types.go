@@ -1,11 +1,17 @@
 package weatherAPI
 
-type WeatherAPI struct {
-	apiAccessCode string
+type geoApi interface {
+	GetLatLon(country, state, city string) (float64, float64, error)
 }
 
-func New(code string) *WeatherAPI {
+type WeatherAPI struct {
+	apiAccessCode string
+	geoApi        geoApi
+}
+
+func New(code string, geoApi geoApi) *WeatherAPI {
 	return &WeatherAPI{
 		apiAccessCode: code,
+		geoApi:        geoApi,
 	}
 }

@@ -8,16 +8,23 @@ import (
 
 //go:generate go run github.com/vektra/mockery/v2@latest --name=weatherApi
 type weatherApi interface {
-	GetWeather(city, country string) domain.Weather
+	GetWeather(city, state, country string) (domain.Weather, error)
+}
+
+type customMux struct {
+	api weatherApi
 }
 
 type HttpServer struct {
 	server *http.Server
-	api    weatherApi
 }
 
 func New(api weatherApi) *HttpServer {
 	mux := http.NewServeMux()
+
+	controllers := customMux{api: api}
+
+	mux.HandleFunc("/get/weather", controllers.getWeather)
 
 	server := &http.Server{
 		Addr:    "8080",
@@ -26,7 +33,6 @@ func New(api weatherApi) *HttpServer {
 
 	return &HttpServer{
 		server: server,
-		api:    api,
 	}
 }
 
