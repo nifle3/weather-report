@@ -19,7 +19,17 @@ services:
     ports:
       - "8080:8080"
 
+  redis_cache:
+    container_name: "redis_cache"
+    image: redis:latest
+    networks:
+      - network_with_redis
+    ports:
+      - "6379:6379"
 
 networks:
   full_stack_network:
+    driver: bridge
+
+  network_with_redis:
     driver: bridge

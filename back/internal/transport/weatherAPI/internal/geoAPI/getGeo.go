@@ -1,4 +1,4 @@
-package geoApi
+package geoAPI
 
 import (
 	"encoding/json"

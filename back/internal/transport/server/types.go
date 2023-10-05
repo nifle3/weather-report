@@ -1,4 +1,4 @@
-package transport
+package server
 
 import (
 	"back/internal/domain"
@@ -8,7 +8,7 @@ import (
 
 //go:generate go run github.com/vektra/mockery/v2@latest --name=weatherApi
 type weatherApi interface {
-	GetWeather(city, state, country string) (domain.Weather, error)
+	GetWeatherNow(city, state, country string) (domain.Weather, error)
 }
 
 type customMux struct {

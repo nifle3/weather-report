@@ -1,4 +1,4 @@
-package geoApi
+package geoAPI
 
 type GeoApi struct {
 	apiKey string

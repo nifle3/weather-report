@@ -1,4 +1,4 @@
-package transport
+package server
 
 import (
 	"encoding/json"
@@ -13,8 +13,8 @@ func (c *customMux) getWeather(w http.ResponseWriter, r *http.Request) {
 
 	type cityAndCountry struct {
 		City    string `json:"City"`
+		State   string `json:"State"`
 		Country string `json:"Country"`
-		Time    string `json:"Time"`
 	}
 
 	var result cityAndCountry
@@ -24,7 +24,11 @@ func (c *customMux) getWeather(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	weather := c.api.GetWeather(result.City, result.Country)
+	weather, err := c.api.GetWeatherNow(result.City, result.State, result.Country)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	jsonWeather, err := json.Marshal(weather)
 	if err != nil {
