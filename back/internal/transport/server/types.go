@@ -1,25 +1,22 @@
 package server
 
 import (
-	"back/internal/domain"
 	"log"
 	"net/http"
 )
 
-//go:generate go run github.com/vektra/mockery/v2@latest --name=weatherApi
-type weatherApi interface {
-	GetWeatherNow(city, state, country string) (domain.Weather, error)
+type useCase interface {
 }
 
 type customMux struct {
-	api weatherApi
+	api useCase
 }
 
 type HttpServer struct {
 	server *http.Server
 }
 
-func New(api weatherApi) *HttpServer {
+func New(api useCase) *HttpServer {
 	mux := http.NewServeMux()
 
 	controllers := customMux{api: api}

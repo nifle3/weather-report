@@ -1,25 +1,19 @@
 version: "3.9"
 services:
-  front_end:
-    container_name: "front_end"
-    networks:
-      - full_stack_network
-    ports:
-      - "8181:8181"
-    depends_on:
-      - back_end
-
   back_end:
+    restart: always
     container_name: "back_end"
     build:
       context: ./back
       dockerfile: Dockerfile
     networks:
       - full_stack_network
+      - network_with_redis
     ports:
       - "8080:8080"
 
   redis_cache:
+    restart: always
     container_name: "redis_cache"
     image: redis:latest
     networks:

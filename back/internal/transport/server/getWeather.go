@@ -1,6 +1,7 @@
 package server
 
 import (
+	"back/internal/domain"
 	"encoding/json"
 	"net/http"
 )
@@ -11,37 +12,12 @@ func (c *customMux) getWeather(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	type cityAndCountry struct {
-		City    string `json:"City"`
-		State   string `json:"State"`
-		Country string `json:"Country"`
-	}
-
-	var result cityAndCountry
+	var result domain.CityAndCountry
 	err := json.NewDecoder(r.Body).Decode(&result)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	weather, err := c.api.GetWeatherNow(result.City, result.State, result.Country)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	jsonWeather, err := json.Marshal(weather)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	_, err = w.Write(jsonWeather)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
 	return
 }
